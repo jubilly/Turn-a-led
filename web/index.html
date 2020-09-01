@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    body,html {
+
+        height: 100%;
+    }
+    body{
+        display: flex;
+        align-content: middle;
+        justify-content: center;
+    }
+    img{
+        padding: 50px;
+        box-shadow: 0 2px 5px;
+
+    }
+    </style>
+</head>
+<body>
+    <img id="lampada" src="" data-state="" alt="">
+    
+    <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-app.js"></script>
+    <!-- Add additional services that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-messaging.js"></script>
+
+    
+    <script>
+      // Initialize Firebase
+      // TODO: Replace with your project's customized code snippet
+      var config = {
+    apiKey: "AIzaSyAWUY7Gktc6TPJugr0vQQ-RZ4XCF_EhBJM",
+    authDomain: "iot-tutorial-c4c86.firebaseapp.com",
+    databaseURL: "https://iot-tutorial-c4c86.firebaseio.com",
+    storageBucket: "iot-tutorial-c4c86.appspot.com",
+  };
+  firebase.initializeApp(config);
+
+  let lampada = document.querySelector('#lampada');
+
+    lampada.addEventListener('click', ()=>{
+
+    
+    let estado = lampada.getAttribute('data-state');
+
+    console.log(lampada);
+
+    if(estado == 'off'){
+        firebase.database().ref('lampada').set('on');
+    }else{
+        firebase.database().ref('lampada').set('off');
+    }
+
+  });
+
+  firebase.database().ref('lampada').on('value', snapshot =>{
+      let l = snapshot.val();
+      if(l == 'on'){
+          lampada.src = 'led-on.png';
+          lampada.setAttribute('data-state', 'on');
+      }else{
+        lampada.src = 'led off.png';
+          lampada.setAttribute('data-state', 'off');
+      }
+  })
+    </script>
+
+</body>
+</html>
